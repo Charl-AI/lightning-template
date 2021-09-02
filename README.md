@@ -1,7 +1,7 @@
 Checklist for starting project:
 
 * [ ] Create First Working Version Milestone (accomplished when this checklist is complete)
-* [ ] Add custom issue labels (for example severity of issue, (more) issue types, and staus of issue (abandoned, in progress, etc.))
+* [ ] Add custom issue labels (for example severity of issue, (more) issue types, and staus of issue (abandoned, in progress, etc.)
 * [ ] Update setup.py
 * [ ] Update README (readme driven development)
 
