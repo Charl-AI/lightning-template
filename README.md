@@ -38,16 +38,16 @@ This project uses PytorchLightning to organise the codebase and provide some use
 
 
 ## Installation
-First, install dependencies
+First, clone the repo
 ```bash
 # clone project
-git clone https://github.com/YourGithubName/deep-learning-project-template
+git clone https://github.com/Charl-AI/REPO-NAME
 
-# install project
+# change to project directory
 cd deep-learning-project-template
 ```
 
-A virtual environment is recommended for this project. Create and activate a virtual environment as follows
+A virtual environment is recommended for this project. Create and activate a virtual environment, then install the dependencies:
 
 ```bash
 python3 -m venv venv
@@ -65,7 +65,7 @@ For training, run:
 python src/train.py
 ```
 
-For options run `python src/train.py --help` to show arguments you can pass from the command line.
+For options, run `python src/train.py --help` to show arguments you can pass from the command line.
 
 ### Citation
 ```
