@@ -2,6 +2,7 @@ Checklist for starting project:
 
 * [ ] Update README (readme driven development)
 * [ ] Update setup.py
+* [ ] Perform EDA and update first cell of notebook
 
 <div align="center">
 
