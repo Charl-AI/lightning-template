@@ -1,8 +1,15 @@
 Checklist for starting project:
 
-* [ ] Update README (readme driven development)
+* [ ] Create First Working Version Milestone (accomplished when this checklist is complete)
+* [ ] Add custom issue labels (for example severity of issue, (more) issue types, and staus of issue (abandoned, in progress, etc.))
 * [ ] Update setup.py
+* [ ] Update README (readme driven development)
+
 * [ ] Perform EDA and update first cell of notebook
+* [ ] Create datamodule (example one for testing is fine)
+* [ ] Create lightningmodule (basic one for testing is fine)
+* [ ] Update train.py
+
 
 <div align="center">
 
