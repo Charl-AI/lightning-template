@@ -6,9 +6,10 @@ Checklist for starting project:
 * [ ] Update README (readme driven development)
 
 * [ ] Perform EDA and update first cell of notebook
+* [ ] (Optional) Create proof of concept in notebook (using toy data etc...)
 * [ ] Create datamodule (example one for testing is fine)
 * [ ] Create lightningmodule (basic one for testing is fine)
-* [ ] Update train.py
+* [ ] Update train.py (must be working with argparsing and logging)
 
 
 <div align="center">
