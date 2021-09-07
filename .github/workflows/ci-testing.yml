@@ -2,10 +2,12 @@ name: CI testing
 
 # see: https://help.github.com/en/actions/reference/events-that-trigger-workflows
 on:
-  # Trigger the workflow on push or pull request, but only for the master branch
+  # Trigger the workflow on pull request, but only for the master branch
+  # We don't trigger on push, because it should be protected by default
   push:
     branches:
       - master
+
   pull_request:
     branches:
       - master
@@ -17,7 +19,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, macOS-10.15, windows-2019]
+      # Can run on all OS using: os: [ubuntu-20.04, macOS-10.15, windows-2019]
+        os: [ubuntu-latest]
         python-version: [3.7]
 
     # Timeout: https://stackoverflow.com/a/59076067/4521646
@@ -53,16 +56,20 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install --requirement requirements.txt --upgrade --quiet --find-links https://download.pytorch.org/whl/cpu/torch_stable.html --use-feature=2020-resolver
-        pip install --requirement tests/requirements.txt --quiet --use-feature=2020-resolver
+        pip install --requirement requirements.txt --quiet
+        pip install --requirement tests/requirements.txt --quiet
         python --version
         pip --version
         pip list
       shell: bash
 
+    - name: Lint with black
+      run: |
+        black --check src tests
+
     - name: Tests
       run: |
-        coverage run --source project -m py.test project tests -v --junitxml=junit/test-results-${{ runner.os }}-${{ matrix.python-version }}.xml
+        coverage run --source src -m py.test src tests -v --junitxml=junit/test-results-${{ runner.os }}-${{ matrix.python-version }}.xml
 
     - name: Statistics
       if: success()
