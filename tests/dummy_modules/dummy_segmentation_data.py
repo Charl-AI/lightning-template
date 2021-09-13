@@ -34,6 +34,7 @@ class DummySegmentationDataModule(pl.LightningDataModule):
     """Dummy DataModule for testing segmentation models"""
 
     def __init__(self, img_shape: tuple = (1, 100, 100), batch_size: int = 1):
+        super().__init__()
         self.img_shape = img_shape
         self.batch_size = batch_size
 
