@@ -2,8 +2,6 @@
 
 Lightning modules define the entire *system* including the model, training step etc. Lightning Bolts, ```pip install lightning-bolts``` , includes some pre-made models which may be of use.
 
-Store the building blocks of models in the components subdirectory.
-
 A typical lightning module looks like this, more info at https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_module.html:
 
 ```python
