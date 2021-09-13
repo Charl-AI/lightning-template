@@ -1,8 +1,9 @@
 from tests.local_test import local_test
-from tests.dummy_modules.dummy_segmentation_data import DummySegmentationDataModule
-from tests.dummy_modules.dummy_classification_data import DummyClassificationDataModule
+from tests.test_suite_utils.dummy_classification_data import (
+    DummyClassificationDataModule,
+)
 from src.models.MNIST_example_model import MNISTResNetModule
-from tests.models.model_test_utils import (
+from tests.test_suite_utils.model_test_utils import (
     check_logits_range,
     check_training_params,
     overfit_batch,
