@@ -9,4 +9,4 @@ def test_example():
 # This test wont run on Actions CI
 @local_test
 def test_example_local():
-    assert True
+    assert False
