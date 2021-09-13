@@ -1,4 +1,4 @@
-from tests.local_test import local_test
+from tests.test_suite_utils.local_test import local_test
 from tests.test_suite_utils.dummy_classification_data import (
     DummyClassificationDataModule,
 )
