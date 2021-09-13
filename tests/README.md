@@ -7,6 +7,8 @@ Oftentimes tests require datasets or excessive compute, which is not practical w
 Tests look like this:
 
 ```python
+from tests.local_test import local_test
+
 
 def test_example():
     # this test isn't very useful...
