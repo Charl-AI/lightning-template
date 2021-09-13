@@ -14,7 +14,8 @@ def test_example():
     # this test isn't very useful...
     assert True
 
-# This test could be used for ensuring a model trains ok, it will be skipped when running remotely
+# This test could be used for ensuring a model trains ok, it will be passed without running
+# when called through GitHub actions remotely
 @local_test
 def test_lit_classifier():
     seed_everything(1234)
