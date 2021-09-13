@@ -2,6 +2,8 @@
 
 Pytest is used for testing. Each file must be named ```test_*```, with all functions following the same convention. Tests are run on Ubuntu using GitHub actions by default, but should also be run locally (vscode has a nice GUI for it).
 
+Each file in ```src``` should have a corresponding file in ```tests```, containing all necessary tests to ensure functionality. Aim to write the tests before the ```src``` file (this is called test-driven-development). Note: there is probably no need to write tests for the experiments notebooks or ```train.py```.
+
 Oftentimes tests require datasets or excessive compute, which is not practical with GitHub actions. In these cases use the ``` @local_test ``` decorator to signal to GitHub actions to skip the test.
 
 Tests look like this:
