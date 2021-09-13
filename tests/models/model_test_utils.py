@@ -13,22 +13,6 @@ from pytorch_lightning.utilities.seed import seed_everything
 seed_everything(1)
 
 
-class ParameterChangeException(Exception):
-    pass
-
-
-class RangeException(Exception):
-    pass
-
-
-class NaNTensorException(Exception):
-    pass
-
-
-class InfTensorException(Exception):
-    pass
-
-
 def check_logits_range(
     LitModule: pl.LightningModule,
     DataModule: pl.LightningDataModule,
@@ -46,40 +30,43 @@ def check_logits_range(
             values less than zero in the logits. This could be caused by accidentally using ReLu.
             Defaults to True.
     """
+    DataModule.setup()
+    batch = next(iter(DataModule.train_dataloader()))
+    logits = LitModule(batch[0])
 
-    batch = next(iter(DataModule.train_dataloader))
-    logits = LitModule(batch)
+    min_val = torch.min(logits)
+    max_val = torch.max(logits)
 
     try:
-        assert torch.min(logits) > logits_range[0]
+        assert min_val > logits_range[0]
     except AssertionError:
-        raise RangeException(
-            f"Minimum value in the logits is less than {logits_range[0]}"
+        raise Exception(
+            f"Minimum value, {min_val}, in the logits is less than {logits_range[0]}"
         )
 
     try:
-        assert torch.max(logits) < logits_range[1]
+        assert max_val < logits_range[1]
     except AssertionError:
-        raise RangeException(
-            f"Maximum value in the logits is greater than {logits_range[1]}"
+        raise Exception(
+            f"Maximum value, f{max_val}, in the logits is greater than {logits_range[1]}"
         )
 
     if enforce_less_than_zero:
         try:
-            assert torch.min(logits) < 0
+            assert min_val < 0
         except AssertionError:
-            raise RangeException(
-                f"Minimum value in the logits is greater than 0, did you accidentally use ReLu?"
+            raise Exception(
+                f"Minimum value, f{min_val}, in the logits is greater than 0, did you accidentally use ReLu?"
             )
     try:
         assert not torch.isnan(logits).byte().any()
     except AssertionError:
-        raise NaNTensorException("There was a NaN value in logits")
+        raise Exception("There was a NaN value in logits")
 
     try:
         assert torch.isfinite(logits).byte().any()
     except AssertionError:
-        raise InfTensorException("There was an Inf value in tensor")
+        raise Exception("There was an Inf value in logits")
 
 
 def check_training_params(
@@ -111,7 +98,7 @@ def check_training_params(
         try:
             assert not torch.equal(p0, p1)
         except AssertionError:
-            raise ParameterChangeException(f"{name} did not change!")
+            raise Exception(f"{name} was not changed during the training step")
 
 
 def overfit_batch(
