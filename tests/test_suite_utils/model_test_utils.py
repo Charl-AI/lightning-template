@@ -24,7 +24,7 @@ class _CheckMetricAfterTraining(Callback):
 
     def teardown(self, trainer, pl_module, stage=None) -> None:
 
-        final_metric = trainer.callback_metrics.get(self.monitor)
+        final_metric = trainer.callback_metrics[self.monitor]
         if final_metric >= self.target_value:
             assert True
 
@@ -52,10 +52,7 @@ def overfit_batch(
             ),
         ],
     )
-    trainer.fit(
-        LitModule,
-        DataModule,
-    )
+    trainer.fit(LitModule, DataModule)
 
 
 def check_logits_range(
