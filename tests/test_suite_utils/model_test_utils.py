@@ -5,7 +5,6 @@ Insipred by:
 https://thenerdstation.medium.com/mltest-automatically-test-neural-network-models-in-one-function-call-eb6f1fa5019d
 """
 from pytorch_lightning.callbacks import Callback
-from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 import torch
 import pytorch_lightning as pl
 from pytorch_lightning.utilities.seed import seed_everything
