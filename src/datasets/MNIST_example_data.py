@@ -16,6 +16,7 @@ class MNISTDataModule(pl.LightningDataModule):
             [transforms.ToTensor(), transforms.Normalize(mean=(0.5,), std=(0.5,))]
         )
 
+    # Note: it can be good idea to do the download separately in the prepare_data method
     def setup(self, stage: Optional[str] = None) -> None:
         if stage == "fit" or stage is None:
             data = MNIST(
