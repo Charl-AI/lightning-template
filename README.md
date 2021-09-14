@@ -2,12 +2,11 @@ Checklist for starting project:
 
 * [ ] Create First Working Version Milestone (accomplished when this checklist is complete)
 * [ ] Add custom issue labels (for example severity of issue, (more) issue types, and staus of issue (abandoned, in progress, etc.)
-* [ ] Update README (readme driven development)
+* [ ] Update README, including CI testing badge (readme driven development)
 
 * [ ] Perform EDA and update first cell of notebook
-* [ ] (Optional) Create proof of concept in notebook (using toy data etc...)
 * [ ] Create datamodule (example one for testing is fine)
-* [ ] Create lightningmodule (basic one for testing is fine)
+* [ ] Create model lightningmodule (basic one for testing is fine)
 * [ ] Update train.py (must be working with argparsing and logging)
 
 
@@ -23,7 +22,7 @@ Checklist for starting project:
 ARXIV
 [![Paper](http://img.shields.io/badge/arxiv-math.co:1480.1111-B31B1B.svg)](https://www.nature.com/articles/nature14539)
 -->
-![CI testing](https://github.com/PyTorchLightning/deep-learning-project-template/workflows/CI%20testing/badge.svg?branch=master&event=push)
+![CI testing](https://github.com/Charl-AI/lightning-template/workflows/CI%20testing/badge.svg?branch=master&event=push)
 
 
 <!--
@@ -32,7 +31,7 @@ Conference
 </div>
 
 ## Description
-What it does
+Template for machine learning projects.
 
 This project uses PytorchLightning to organise the codebase and provide some useful abstractions.
 
