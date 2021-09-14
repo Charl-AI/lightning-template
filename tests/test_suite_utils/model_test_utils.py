@@ -4,13 +4,58 @@ These are useful classes and functions for testing ml models with Pytorch Lighti
 Insipred by:
 https://thenerdstation.medium.com/mltest-automatically-test-neural-network-models-in-one-function-call-eb6f1fa5019d
 """
-
+from pytorch_lightning.callbacks import Callback
+from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 import torch
 import pytorch_lightning as pl
 from pytorch_lightning.utilities.seed import seed_everything
 
 
 seed_everything(1)
+
+
+class _CheckMetricAfterTraining(Callback):
+    """Callback for use in the overfitting sanity test. Triggers at very end of training.
+    Asserts true when the tracked metric is greater than or equal to the target value."""
+
+    def __init__(self, monitor: str = None, target_value: float = None):
+        self.monitor = monitor
+        self.target_value = target_value
+
+    def teardown(self, trainer, pl_module, stage=None) -> None:
+
+        final_metric = trainer.callback_metrics.get(self.monitor)
+        if final_metric >= self.target_value:
+            assert True
+
+        else:
+            raise Exception(
+                f"Metric, {self.monitor}, did not exceed target, {self.target_value}, in allotted epochs. Final value = {final_metric}"
+            )
+
+
+def overfit_batch(
+    LitModule: pl.LightningModule,
+    DataModule: pl.LightningDataModule,
+    param_to_monitor: str = "train_acc",
+    target_value: float = 1.0,
+    max_epochs: int = 10,
+):
+
+    trainer = pl.Trainer(
+        overfit_batches=1,
+        max_epochs=max_epochs,
+        checkpoint_callback=False,
+        callbacks=[
+            _CheckMetricAfterTraining(
+                monitor=param_to_monitor, target_value=target_value
+            ),
+        ],
+    )
+    trainer.fit(
+        LitModule,
+        DataModule,
+    )
 
 
 def check_logits_range(
@@ -99,15 +144,3 @@ def check_training_params(
             assert not torch.equal(p0, p1)
         except AssertionError:
             raise Exception(f"{name} was not changed during the training step")
-
-
-def overfit_batch(
-    LitModule: pl.LightningModule,
-    DataModule: pl.LightningDataModule,
-    max_epochs: int = 10,
-):
-
-    trainer = pl.Trainer(
-        overfit_batches=1, max_epochs=max_epochs, weights_summary="full"
-    )
-    trainer.fit(LitModule, DataModule)
