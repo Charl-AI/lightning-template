@@ -23,6 +23,8 @@ class WandbImageClassificationCallback(pl.Callback):
         """
         super().__init__()
 
+        data.prepare_data()
+        data.setup()
         train_samples = next(iter(data.train_dataloader()))
         val_samples = next(iter(data.val_dataloader()))
 
@@ -54,13 +56,13 @@ class WandbImageClassificationCallback(pl.Callback):
         trainer.logger.experiment.log(
             {
                 f"{mode}/logits": wandb.Histogram(flattened_logits.to("cpu")),
-                "global_step": self.global_step,
+                "global_step": trainer.global_step,
             }
         )
 
     def on_train_epoch_end(self, trainer, pl_module):
         imgs = self.train_imgs.to(device=pl_module.device)
-        logits = pl_module(imgs)
+        logits = pl_module(imgs).detach()
         preds = torch.argmax(logits, 1)
         labels = self.train_labels
 
@@ -69,7 +71,7 @@ class WandbImageClassificationCallback(pl.Callback):
 
     def on_validation_epoch_end(self, trainer, pl_module):
         imgs = self.val_imgs.to(device=pl_module.device)
-        logits = pl_module(imgs)
+        logits = pl_module(imgs).detach()
         preds = torch.argmax(logits, 1)
         labels = self.val_labels
 
