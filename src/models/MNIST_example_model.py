@@ -48,7 +48,7 @@ class MNISTResNetModule(pl.LightningModule):
         imgs, targets = batch
         preds = self(imgs)
         loss = F.cross_entropy(preds, targets)
-        return {"loss": loss, "preds": preds.detach(), "targets": targets}
+        return {"loss": loss, "preds": preds.detach(), "targets": targets, "imgs": imgs}
 
     def validation_step_end(self, outs):
         # log accuracy on each step_end, for compatibility with data-parallel
