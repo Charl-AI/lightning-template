@@ -20,9 +20,7 @@ def main(args):
     model = MNISTResNetModule(lr=dict_args["learning_rate"])
     data = MNISTDataModule(batch_size=dict_args["batch_size"])
 
-    wandb_logger = WandbLogger(
-        name=f"{input('Title of run:' )}", project="Lightning-Template", log_model="all"
-    )
+    wandb_logger = WandbLogger(name=f"{input('Title of run:' )}", log_model="all")
     wandb_logger.watch(model)
 
     trainer = pl.Trainer.from_argparse_args(
