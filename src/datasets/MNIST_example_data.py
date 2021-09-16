@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader, random_split
 class MNISTDataModule(pl.LightningDataModule):
     """LightningDataModule implementation of MNIST dataset"""
 
-    def __init__(self, batch_size: int = 2, download: bool = True):
+    def __init__(self, batch_size: int = 2, download: bool = False):
         super().__init__()
         self.batch_size = batch_size
         self.download = download
@@ -46,3 +46,14 @@ class MNISTDataModule(pl.LightningDataModule):
 
     def test_dataloader(self):
         return DataLoader(self.test, batch_size=self.batch_size)
+
+    @staticmethod
+    def add_dataset_specific_args(parent_parser):
+        parser = parent_parser.add_argument_group("MNISTDataModule")
+        parser.add_argument(
+            "--batch_size",
+            help="batch size",
+            type=int,
+            default=50,
+        )
+        return parent_parser
