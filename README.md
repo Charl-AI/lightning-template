@@ -21,7 +21,7 @@ Checklist for starting project:
 </div>
 
 ## Description
-Template for machine learning projects.
+Template for machine learning projects. The template includes an MNIST example, logging with weights and biases, and a reusable test suite.
 
 This project uses [PytorchLightning](https://pytorch-lightning.readthedocs.io/en/latest/) to organise the codebase and provide some useful abstractions.
 
