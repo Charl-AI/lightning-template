@@ -3,8 +3,8 @@ import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.utilities.seed import seed_everything
-
-from visualisation.wandb.classification_callback import (
+import os
+from visualisation.wandb_callbacks.image_classification_callback import (
     WandbImageClassificationCallback,
 )
 from models.MNIST_example_model import MNISTResNetModule
@@ -26,7 +26,9 @@ def main(args):
     wandb_logger.watch(model)
 
     trainer = pl.Trainer.from_argparse_args(
-        args, logger=wandb_logger, callbacks=[WandbImageClassificationCallback()]
+        args,
+        logger=[wandb_logger],
+        callbacks=[WandbImageClassificationCallback(data, num_samples=32)],
     )
     trainer.fit(model, data)
 
