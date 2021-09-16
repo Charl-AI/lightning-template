@@ -27,7 +27,7 @@ def main(args):
 
     trainer = pl.Trainer.from_argparse_args(
         args,
-        logger=[wandb_logger],
+        logger=wandb_logger,
         callbacks=[WandbImageClassificationCallback(data, num_samples=32)],
     )
     trainer.fit(model, data)
