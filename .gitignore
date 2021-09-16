@@ -123,6 +123,7 @@ venv.bak/
 
 # seed project
 wandb/
+runs/
 lightning_logs/
 MNIST
 .DS_Store
