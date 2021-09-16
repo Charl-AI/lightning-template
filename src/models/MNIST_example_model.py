@@ -36,6 +36,8 @@ class MNISTResNetModule(pl.LightningModule):
         imgs, targets = batch
         preds = self(imgs)
         loss = F.cross_entropy(preds, targets)
+
+        # return everything so it can be accessed by logging calbacks
         return {"loss": loss, "preds": preds.detach(), "targets": targets, "imgs": imgs}
 
     def training_step_end(self, outs):
@@ -48,6 +50,8 @@ class MNISTResNetModule(pl.LightningModule):
         imgs, targets = batch
         preds = self(imgs)
         loss = F.cross_entropy(preds, targets)
+
+        # return everything so it can be accessed by logging calbacks
         return {"loss": loss, "preds": preds.detach(), "targets": targets, "imgs": imgs}
 
     def validation_step_end(self, outs):
