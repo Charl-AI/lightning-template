@@ -34,29 +34,39 @@ class MNISTResNetModule(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         imgs, targets = batch
-        preds = self(imgs)
-        loss = F.cross_entropy(preds, targets)
+        logits = self(imgs)
+        loss = F.cross_entropy(logits, targets)
 
         # return everything so it can be accessed by logging calbacks
-        return {"loss": loss, "preds": preds.detach(), "targets": targets, "imgs": imgs}
+        return {
+            "loss": loss,
+            "logits": logits.detach(),
+            "targets": targets,
+            "imgs": imgs,
+        }
 
     def training_step_end(self, outs):
         # log accuracy on each step_end, for compatibility with data-parallel
-        self.train_accuracy(outs["preds"], outs["targets"])
+        self.train_accuracy(outs["logits"], outs["targets"])
         self.log("train/accuracy", self.train_accuracy)
         self.log("train/loss", outs["loss"])
 
     def validation_step(self, batch, batch_idx):
         imgs, targets = batch
-        preds = self(imgs)
-        loss = F.cross_entropy(preds, targets)
+        logits = self(imgs)
+        loss = F.cross_entropy(logits, targets)
 
         # return everything so it can be accessed by logging calbacks
-        return {"loss": loss, "preds": preds.detach(), "targets": targets, "imgs": imgs}
+        return {
+            "loss": loss,
+            "logits": logits.detach(),
+            "targets": targets,
+            "imgs": imgs,
+        }
 
     def validation_step_end(self, outs):
         # log accuracy on each step_end, for compatibility with data-parallel
-        self.valid_accuracy(outs["preds"], outs["targets"])
+        self.valid_accuracy(outs["logits"], outs["targets"])
         self.log("validation/accuracy", self.valid_accuracy)
         self.log("validation/loss", outs["loss"])
 
