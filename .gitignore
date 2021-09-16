@@ -122,6 +122,7 @@ venv.bak/
 .vscode
 
 # seed project
+wandb/
 lightning_logs/
 MNIST
 .DS_Store
