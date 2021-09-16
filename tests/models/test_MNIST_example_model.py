@@ -1,4 +1,5 @@
-from tests.test_suite_utils.local_test import local_test
+import pytest
+
 from tests.test_suite_utils.dummy_classification_data import (
     DummyClassificationDataModule,
 )
@@ -27,7 +28,7 @@ def test_MNIST_example_training_params():
     check_training_params(model, data)
 
 
-@local_test
+@pytest.mark.local
 def test_MNIST_example_by_overfitting():
     model = MNISTResNetModule()
     data = MNISTDataModule(batch_size=2, download=True)

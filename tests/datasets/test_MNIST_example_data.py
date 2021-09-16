@@ -1,4 +1,4 @@
-from tests.test_suite_utils.local_test import local_test
+import pytest
 
 
 def test_example():
@@ -7,6 +7,6 @@ def test_example():
 
 
 # This test wont run on Actions CI
-@local_test
+@pytest.mark.local
 def test_example_local():
     assert True
