@@ -71,6 +71,7 @@ def check_logits_range(
             values less than zero in the logits. This could be caused by accidentally using ReLu.
             Defaults to True.
     """
+    DataModule.prepare_data()
     DataModule.setup()
     batch = next(iter(DataModule.train_dataloader()))
     logits = LitModule(batch[0])

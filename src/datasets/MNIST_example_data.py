@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader, random_split
 class MNISTDataModule(pl.LightningDataModule):
     """LightningDataModule implementation of MNIST dataset"""
 
-    def __init__(self, batch_size: int = 2, download: bool = False):
+    def __init__(self, batch_size: int = 50, download: bool = False):
         super().__init__()
         self.batch_size = batch_size
         self.download = download
@@ -16,13 +16,15 @@ class MNISTDataModule(pl.LightningDataModule):
             [transforms.ToTensor(), transforms.Normalize(mean=(0.5,), std=(0.5,))]
         )
 
-    # Note: it can be good idea to do the download separately in the prepare_data method
+    def prepare_data(self):
+        MNIST(root="data/", train=True, download=True)
+        MNIST(root="data/", train=False, download=True)
+
     def setup(self, stage: Optional[str] = None) -> None:
         if stage == "fit" or stage is None:
             data = MNIST(
                 root="data/",
                 train=True,
-                download=self.download,
                 transform=self.transforms,
             )
 
@@ -34,7 +36,6 @@ class MNISTDataModule(pl.LightningDataModule):
             self.test = data = MNIST(
                 root="data/",
                 train=False,
-                download=self.download,
                 transform=self.transforms,
             )
 
