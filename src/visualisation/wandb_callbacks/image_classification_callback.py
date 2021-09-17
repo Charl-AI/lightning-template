@@ -1,7 +1,4 @@
 import pytorch_lightning as pl
-from pytorch_lightning.loggers import WandbLogger
-from pytorch_lightning.utilities.types import STEP_OUTPUT
-from typing import Any
 import torch
 import wandb
 
