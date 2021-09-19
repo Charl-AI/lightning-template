@@ -20,10 +20,10 @@ class _MNISTResNet(ResNet):
 class MNISTResNetModule(pl.LightningModule):
     """LightningModule implementation of a ResNet for MNIST"""
 
-    def __init__(self, lr: float = 0.01, **kwargs):
+    def __init__(self, lr: float = 0.01):
         super().__init__()
-        self.save_hyperparameters()
         self.lr = lr
+        self.save_hyperparameters()
 
         self.train_accuracy = torchmetrics.Accuracy()
         self.valid_accuracy = torchmetrics.Accuracy()
@@ -33,35 +33,50 @@ class MNISTResNetModule(pl.LightningModule):
         return self.net(x)
 
     def training_step(self, batch, batch_idx):
-        imgs, labels = batch
-        predictions = self(imgs)
+        imgs, targets = batch
+        logits = self(imgs)
+        loss = F.cross_entropy(logits, targets)
 
-        loss = F.cross_entropy(predictions, labels)
+        # return everything so it can be accessed by logging calbacks
+        return {
+            "loss": loss,
+            "logits": logits.detach(),
+            "targets": targets,
+            "imgs": imgs,
+        }
 
-        self.log_dict(
-            {"train_loss": loss, "train_acc": self.train_accuracy(predictions, labels)}
-        )
-
-        return loss
+    def training_step_end(self, outs):
+        # log accuracy on each step_end, for compatibility with data-parallel
+        self.train_accuracy(outs["logits"], outs["targets"])
+        self.log("train/accuracy", self.train_accuracy)
+        self.log("train/loss", outs["loss"])
 
     def validation_step(self, batch, batch_idx):
-        imgs, labels = batch
-        predictions = self(imgs)
+        imgs, targets = batch
+        logits = self(imgs)
+        loss = F.cross_entropy(logits, targets)
 
-        loss = F.cross_entropy(predictions, labels)
+        # return everything so it can be accessed by logging calbacks
+        return {
+            "loss": loss,
+            "logits": logits.detach(),
+            "targets": targets,
+            "imgs": imgs,
+        }
 
-        self.log_dict(
-            {"val_loss": loss, "val_acc": self.valid_accuracy(predictions, labels)}
-        )
+    def validation_step_end(self, outs):
+        # log accuracy on each step_end, for compatibility with data-parallel
+        self.valid_accuracy(outs["logits"], outs["targets"])
+        self.log("validation/accuracy", self.valid_accuracy)
+        self.log("validation/loss", outs["loss"])
 
     def configure_optimizers(self):
         return torch.optim.SGD(self.parameters(), lr=self.lr)
 
     @staticmethod
     def add_model_specific_args(parent_parser):
-        parser = parent_parser.add_argument_group("StochasticUnetSystem")
+        parser = parent_parser.add_argument_group("MNISTResNetModule")
         parser.add_argument(
-            "-lr",
             "--learning_rate",
             help="learning rate of optimiser",
             type=float,

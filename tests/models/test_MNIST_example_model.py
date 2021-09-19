@@ -33,5 +33,5 @@ def test_MNIST_example_by_overfitting():
     model = MNISTResNetModule()
     data = MNISTDataModule(batch_size=2, download=True)
     overfit_batch(
-        model, data, param_to_monitor="train_acc", target_value=0.9, max_epochs=15
+        model, data, param_to_monitor="train/accuracy", target_value=0.9, max_epochs=15
     )
