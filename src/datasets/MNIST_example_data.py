@@ -8,10 +8,11 @@ from torch.utils.data import DataLoader, random_split
 class MNISTDataModule(pl.LightningDataModule):
     """LightningDataModule implementation of MNIST dataset"""
 
-    def __init__(self, batch_size: int = 50, download: bool = False):
+    def __init__(self, batch_size: int = 50):
         super().__init__()
+        self.save_hyperparameters()
+
         self.batch_size = batch_size
-        self.download = download
         self.transforms = transforms.Compose(
             [transforms.ToTensor(), transforms.Normalize(mean=(0.5,), std=(0.5,))]
         )
