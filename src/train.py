@@ -4,12 +4,12 @@ from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.utilities.seed import seed_everything
 import os
+from pathlib import Path, PurePath
 from visualisation.wandb_callbacks.image_classification_callback import (
     WandbImageClassificationCallback,
 )
 from models.MNIST_example_model import MNISTResNetModule
 from datasets.MNIST_example_data import MNISTDataModule
-from utils import get_project_root_name
 import wandb
 
 # dataloader workers get different seeds to prevent augmentations being repeated
@@ -28,8 +28,11 @@ def main(args):
     else:
         title = ""
 
+    # Get name of project root. Assumes structure of root/src/train.py
+    root_name = os.path.basename(Path(__file__).resolve().parent.parent)
+
     wandb_logger = WandbLogger(
-        name=f"{title}", log_model="all", project=f"{get_project_root_name()}-logs"
+        name=f"{title}", log_model="all", project=f"{root_name}-logs"
     )
     wandb_logger.watch(model)
 
