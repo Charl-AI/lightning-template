@@ -12,7 +12,7 @@ class WandbImageClassificationCallback(pl.Callback):
     https://docs.wandb.ai/guides/integrations/lightning
     """
 
-    def __init__(self, data: pl.LightningDataModule, num_samples=32):
+    def __init__(self, num_samples=32):
         """
         Args:
             data (pl.LightningDataModule): Data to use for plots.
@@ -20,19 +20,14 @@ class WandbImageClassificationCallback(pl.Callback):
         """
         super().__init__()
 
-        data.prepare_data()
-        data.setup()
-        train_samples = next(iter(data.train_dataloader()))
-        val_samples = next(iter(data.val_dataloader()))
-
         self.num_samples = num_samples
-        if self.num_samples > data.batch_size:
-            self.num_samples = data.batch_size
 
-        self.train_imgs, self.train_labels = train_samples
-        self.val_imgs, self.val_labels = val_samples
+    def _log_examples(self, trainer, imgs, logits, labels, mode="train"):
+        batch_size = len(imgs)
+        if self.num_samples > batch_size:
+            self.num_samples = batch_size
 
-    def _log_examples(self, trainer, imgs, preds, labels, mode="train"):
+        preds = torch.argmax(logits, 1)
 
         trainer.logger.experiment.log(
             {
@@ -57,20 +52,26 @@ class WandbImageClassificationCallback(pl.Callback):
             }
         )
 
-    def on_train_epoch_end(self, trainer, pl_module):
-        imgs = self.train_imgs.to(device=pl_module.device)
-        logits = pl_module(imgs).detach()
-        preds = torch.argmax(logits, 1)
-        labels = self.train_labels
+    def on_train_batch_end(
+        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx
+    ):
+        self._log_examples(
+            trainer,
+            outputs["imgs"],
+            outputs["logits"],
+            outputs["targets"],
+            mode="train",
+        )
+        self._log_logits(trainer, outputs["logits"], mode="train")
 
-        self._log_examples(trainer, imgs, preds, labels, mode="train")
-        self._log_logits(trainer, logits, mode="train")
-
-    def on_validation_epoch_end(self, trainer, pl_module):
-        imgs = self.val_imgs.to(device=pl_module.device)
-        logits = pl_module(imgs).detach()
-        preds = torch.argmax(logits, 1)
-        labels = self.val_labels
-
-        self._log_examples(trainer, imgs, preds, labels, mode="validation")
-        self._log_logits(trainer, logits, mode="validation")
+    def on_validation_batch_end(
+        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx
+    ):
+        self._log_examples(
+            trainer,
+            outputs["imgs"],
+            outputs["logits"],
+            outputs["targets"],
+            mode="validation",
+        )
+        self._log_logits(trainer, outputs["logits"], mode="validation")

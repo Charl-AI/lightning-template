@@ -127,4 +127,4 @@ runs/
 lightning_logs/
 MNIST
 .DS_Store
-*.ckpt
+*-logs/

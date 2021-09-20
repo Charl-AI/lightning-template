@@ -3,15 +3,17 @@ from torchvision.datasets import MNIST
 from torchvision import transforms
 from typing import Optional
 from torch.utils.data import DataLoader, random_split
+import multiprocessing
 
 
 class MNISTDataModule(pl.LightningDataModule):
     """LightningDataModule implementation of MNIST dataset"""
 
-    def __init__(self, batch_size: int = 50, download: bool = False):
+    def __init__(self, batch_size: int = 50):
         super().__init__()
+        self.save_hyperparameters()
+
         self.batch_size = batch_size
-        self.download = download
         self.transforms = transforms.Compose(
             [transforms.ToTensor(), transforms.Normalize(mean=(0.5,), std=(0.5,))]
         )
@@ -40,13 +42,26 @@ class MNISTDataModule(pl.LightningDataModule):
             )
 
     def train_dataloader(self):
-        return DataLoader(self.train, shuffle=True, batch_size=self.batch_size)
+        return DataLoader(
+            self.train,
+            shuffle=True,
+            batch_size=self.batch_size,
+            num_workers=multiprocessing.cpu_count(),
+        )
 
     def val_dataloader(self):
-        return DataLoader(self.val, batch_size=self.batch_size)
+        return DataLoader(
+            self.val,
+            batch_size=self.batch_size,
+            num_workers=multiprocessing.cpu_count(),
+        )
 
     def test_dataloader(self):
-        return DataLoader(self.test, batch_size=self.batch_size)
+        return DataLoader(
+            self.test,
+            batch_size=self.batch_size,
+            num_workers=multiprocessing.cpu_count(),
+        )
 
     @staticmethod
     def add_dataset_specific_args(parent_parser):
