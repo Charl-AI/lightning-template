@@ -42,7 +42,12 @@ class MNISTDataModule(pl.LightningDataModule):
             )
 
     def train_dataloader(self):
-        return DataLoader(self.train, shuffle=True, batch_size=self.batch_size)
+        return DataLoader(
+            self.train,
+            shuffle=True,
+            batch_size=self.batch_size,
+            num_workers=multiprocessing.cpu_count(),
+        )
 
     def val_dataloader(self):
         return DataLoader(
