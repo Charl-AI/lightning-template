@@ -52,7 +52,9 @@ class WandbImageClassificationCallback(pl.Callback):
             }
         )
 
-    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
+    def on_train_batch_end(
+        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx
+    ):
         self._log_examples(
             trainer,
             outputs["imgs"],
@@ -62,7 +64,9 @@ class WandbImageClassificationCallback(pl.Callback):
         )
         self._log_logits(trainer, outputs["logits"], mode="train")
 
-    def on_validation_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
+    def on_validation_batch_end(
+        self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx
+    ):
         self._log_examples(
             trainer,
             outputs["imgs"],
