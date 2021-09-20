@@ -59,6 +59,7 @@ This project integrates with [Weights and Biases](https://wandb.ai/site) for log
 ```bash
 tensorboard --logdir=lightning_logs
 ```
+When using Weights and Biases on a new machine, run ```wandb login``` in the terminal, and paste the API key from your weights and biases account to set it up.
 
 ### Citation
 ```
