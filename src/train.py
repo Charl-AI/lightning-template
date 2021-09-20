@@ -12,7 +12,8 @@ from datasets.MNIST_example_data import MNISTDataModule
 from utils import get_project_root_name
 import wandb
 
-seed_everything(1)
+# dataloader workers get different seeds to prevent augmentations being repeated
+seed_everything(1, workers=True)
 
 
 def main(args):
