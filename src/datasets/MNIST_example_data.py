@@ -3,6 +3,7 @@ from torchvision.datasets import MNIST
 from torchvision import transforms
 from typing import Optional
 from torch.utils.data import DataLoader, random_split
+import multiprocessing
 
 
 class MNISTDataModule(pl.LightningDataModule):
@@ -44,10 +45,18 @@ class MNISTDataModule(pl.LightningDataModule):
         return DataLoader(self.train, shuffle=True, batch_size=self.batch_size)
 
     def val_dataloader(self):
-        return DataLoader(self.val, batch_size=self.batch_size)
+        return DataLoader(
+            self.val,
+            batch_size=self.batch_size,
+            num_workers=multiprocessing.cpu_count(),
+        )
 
     def test_dataloader(self):
-        return DataLoader(self.test, batch_size=self.batch_size)
+        return DataLoader(
+            self.test,
+            batch_size=self.batch_size,
+            num_workers=multiprocessing.cpu_count(),
+        )
 
     @staticmethod
     def add_dataset_specific_args(parent_parser):
