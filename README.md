@@ -27,6 +27,8 @@ This project uses [PytorchLightning](https://pytorch-lightning.readthedocs.io/en
 
 
 ## Installation
+Note: this project has been developed and tested on Ubuntu. The project may run on other platforms, however, this is not guaranteed. If you do not have an Ubuntu machine, consider using WSL.
+
 First, clone the repo
 ```bash
 # clone project
@@ -44,6 +46,9 @@ source venv/bin/activate
 
 pip install -r requirements.txt
 ```
+## Data
+The data used in the default example is the standard MNIST dataset. It will download automatically to ```data/``` by default.
+
 
 ## Running
 
