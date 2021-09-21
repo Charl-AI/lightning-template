@@ -12,14 +12,14 @@ class WandbDatasetHistogramCallback(pl.Callback):
 
             trainer.logger.experiment.log(
                 {
-                    f"Dataset/Inputs": wandb.Histogram(x.to("cpu")),
+                    f"Dataset/Inputs:{str(x.shape)}": wandb.Histogram(x),
                     "global_step": trainer.global_step,
                 }
             )
 
             trainer.logger.experiment.log(
                 {
-                    f"Dataset/Targets": wandb.Histogram(y.to("cpu")),
+                    f"Dataset/Targets:{str(y.shape)}": wandb.Histogram(y),
                     "global_step": trainer.global_step,
                 }
             )
