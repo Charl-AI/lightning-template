@@ -8,7 +8,8 @@ from pytorch_lightning.callbacks import Callback
 import torch
 import pytorch_lightning as pl
 from pytorch_lightning.utilities.seed import seed_everything
-
+from pl_bolts.utils import BatchGradientVerification
+import torch.nn as nn
 
 seed_everything(1)
 
@@ -40,6 +41,17 @@ def overfit_batch(
     target_value: float = 1.0,
     max_epochs: int = 10,
 ):
+    """Overfit the model on a single batch for a specified number of epochs.
+    Raises an Exception if the monitored parameter (e.g. accuracy) does not
+    exceed the target.
+
+    Args:
+        LitModule (pl.LightningModule): Model to test.
+        DataModule (pl.LightningDataModule): Data to test on. Best to use real data.
+        param_to_monitor (str, optional): Parameter to track. Defaults to "train_acc".
+        target_value (float, optional): Target value. Defaults to 1.0.
+        max_epochs (int, optional): Number of training epochs. Defaults to 10.
+    """
 
     trainer = pl.Trainer(
         overfit_batches=1,
@@ -141,3 +153,28 @@ def check_training_params(
             assert not torch.equal(p0, p1)
         except AssertionError:
             raise Exception(f"{name} was not changed during the training step")
+
+
+def check_for_batch_mixing(
+    model: nn.Module,
+    DataModule: pl.LightningDataModule,
+):
+    """Checks for data mixing across the batch dimension. This can happen if reshape
+    and/or permutation operations are carried out in the wrong order or on the wrong
+    tensor dimensions. Relys on pl_bolts tool.
+
+    Args:
+        model (nn.Module): Model to check. NOTE: this is an nn.Module, not a LightningModule.
+        DataModule (pl.LightningDataModule): DataModule to test on (dummy data is fine).
+    """
+    DataModule.prepare_data()
+    DataModule.setup()
+    verification = BatchGradientVerification(model)
+    try:
+        assert verification.check(
+            input_array=next(iter(DataModule.train_dataloader()))[0], sample_idx=1
+        )
+    except AssertionError:
+        raise Exception(
+            "Model seems to mix data across the batch dimension. This can happen if reshape and/or permutation operations are carried out in the wrong order or on the wrong tensor dimensions."
+        )
