@@ -2,15 +2,13 @@ name: CI testing
 
 # see: https://help.github.com/en/actions/reference/events-that-trigger-workflows
 on:
-  # Trigger the workflow on pull request, but only for the master branch
-  # We don't trigger on push, because it should be protected by default
   push:
     branches:
-      - master
+      - main
 
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   pytest:
