@@ -55,23 +55,39 @@ class WandbImageClassificationCallback(pl.Callback):
     def on_train_batch_end(
         self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx
     ):
-        self._log_examples(
-            trainer,
-            outputs["imgs"],
-            outputs["logits"],
-            outputs["targets"],
-            mode="train",
-        )
-        self._log_logits(trainer, outputs["logits"], mode="train")
+        if (batch_idx + 1) % trainer.log_every_n_steps == 0:
+            imgs, targets = batch
+
+            with torch.no_grad():
+                pl_module.eval()
+                logits = pl_module(imgs)
+                pl_module.train()
+
+            self._log_examples(
+                trainer,
+                imgs,
+                logits,
+                targets,
+                mode="train",
+            )
+            self._log_logits(trainer, logits, mode="train")
 
     def on_validation_batch_end(
         self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx
     ):
-        self._log_examples(
-            trainer,
-            outputs["imgs"],
-            outputs["logits"],
-            outputs["targets"],
-            mode="validation",
-        )
-        self._log_logits(trainer, outputs["logits"], mode="validation")
+        if (batch_idx + 1) % trainer.log_every_n_steps == 0:
+            imgs, targets = batch
+
+            with torch.no_grad():
+                pl_module.eval()
+                logits = pl_module(imgs)
+                pl_module.train()
+
+            self._log_examples(
+                trainer,
+                imgs,
+                logits,
+                targets,
+                mode="validation",
+            )
+            self._log_logits(trainer, logits, mode="validation")
