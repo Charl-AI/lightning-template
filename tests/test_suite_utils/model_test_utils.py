@@ -8,7 +8,8 @@ from pytorch_lightning.callbacks import Callback
 import torch
 import pytorch_lightning as pl
 from pytorch_lightning.utilities.seed import seed_everything
-
+from pl_bolts.utils import BatchGradientVerification
+import torch.nn as nn
 
 seed_everything(1)
 
@@ -141,3 +142,15 @@ def check_training_params(
             assert not torch.equal(p0, p1)
         except AssertionError:
             raise Exception(f"{name} was not changed during the training step")
+
+
+def check_for_batch_mixing(
+    model: nn.Module,
+    DataModule: pl.LightningDataModule,
+):
+    DataModule.prepare_data()
+    DataModule.setup()
+    verification = BatchGradientVerification(model)
+    assert verification.check(
+        input_array=next(iter(DataModule.train_dataloader()))[0], sample_idx=1
+    )
