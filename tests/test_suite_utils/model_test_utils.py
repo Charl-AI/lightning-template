@@ -151,6 +151,11 @@ def check_for_batch_mixing(
     DataModule.prepare_data()
     DataModule.setup()
     verification = BatchGradientVerification(model)
-    assert verification.check(
-        input_array=next(iter(DataModule.train_dataloader()))[0], sample_idx=1
-    )
+    try:
+        assert verification.check(
+            input_array=next(iter(DataModule.train_dataloader()))[0], sample_idx=1
+        )
+    except AssertionError:
+        raise Exception(
+            "Model seems to mix data across the batch dimension. This can happen if reshape and/or permutation operations are carried out in the wrong order or on the wrong tensor dimensions."
+        )
