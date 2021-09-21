@@ -8,6 +8,9 @@ from pathlib import Path, PurePath
 from visualisation.wandb_callbacks.image_classification_callback import (
     WandbImageClassificationCallback,
 )
+from visualisation.wandb_callbacks.dataset_histogram_callback import (
+    WandbDatasetHistogramCallback,
+)
 from models.MNIST_example_model import MNISTResNetModule
 from datasets.MNIST_example_data import MNISTDataModule
 import wandb
@@ -39,7 +42,10 @@ def main(args):
     trainer = pl.Trainer.from_argparse_args(
         args,
         logger=wandb_logger,
-        callbacks=[WandbImageClassificationCallback(num_samples=32)],
+        callbacks=[
+            WandbImageClassificationCallback(num_samples=32),
+            WandbDatasetHistogramCallback(),
+        ],
     )
     trainer.fit(model, data)
 
