@@ -2,7 +2,7 @@ from torchvision.models.resnet import ResNet, BasicBlock
 import torch
 import pytorch_lightning as pl
 import torch.nn.functional as F
-import torchmetrics
+import torchmetrics.functional as TF
 
 
 class _MNISTResNet(ResNet):
@@ -24,50 +24,36 @@ class MNISTResNetModule(pl.LightningModule):
         super().__init__()
         self.lr = lr
         self.save_hyperparameters()
-
-        self.train_accuracy = torchmetrics.Accuracy()
-        self.valid_accuracy = torchmetrics.Accuracy()
         self.net = _MNISTResNet()
 
     def forward(self, x):
         return self.net(x)
 
-    def training_step(self, batch, batch_idx):
+    def _step(self, batch, batch_idx):
         imgs, targets = batch
         logits = self(imgs)
         loss = F.cross_entropy(logits, targets)
+        accuracy = TF.accuracy(logits, targets)
 
-        # return everything so it can be accessed by logging calbacks
         return {
             "loss": loss,
-            "logits": logits.detach(),
-            "targets": targets,
-            "imgs": imgs,
+            "accuracy": accuracy,
         }
 
+    def training_step(self, batch, batch_idx):
+        return self._step(batch, batch_idx)
+
     def training_step_end(self, outs):
-        # log accuracy on each step_end, for compatibility with data-parallel
-        self.train_accuracy(outs["logits"], outs["targets"])
-        self.log("train/accuracy", self.train_accuracy)
+        # log on each step_end, for compatibility with data-parallel
+        self.log("train/accuracy", outs["accuracy"])
         self.log("train/loss", outs["loss"])
 
     def validation_step(self, batch, batch_idx):
-        imgs, targets = batch
-        logits = self(imgs)
-        loss = F.cross_entropy(logits, targets)
-
-        # return everything so it can be accessed by logging calbacks
-        return {
-            "loss": loss,
-            "logits": logits.detach(),
-            "targets": targets,
-            "imgs": imgs,
-        }
+        return self._step(batch, batch_idx)
 
     def validation_step_end(self, outs):
         # log accuracy on each step_end, for compatibility with data-parallel
-        self.valid_accuracy(outs["logits"], outs["targets"])
-        self.log("validation/accuracy", self.valid_accuracy)
+        self.log("validation/accuracy", outs["accuracy"])
         self.log("validation/loss", outs["loss"])
 
     def configure_optimizers(self):
