@@ -1,13 +1,13 @@
-name: Pylint
+name: Static analysis with Pylint
 
 on:
   push:
       branches:
-          - master
+          - main
 
   pull_request:
       branches:
-          - master
+          - main
 
 jobs:
   build:

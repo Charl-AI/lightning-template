@@ -63,10 +63,6 @@ jobs:
     - name: Lint with black
       run: |
         black --check src tests
-        
-    - name: Analysing the code with pylint
-      run: |
-        pylint `ls -R|grep .py$|xargs` --disable=C0330 --disable=C0326 --max-line-length=88
 
     - name: Tests
       run: |
