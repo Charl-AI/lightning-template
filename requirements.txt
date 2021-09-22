@@ -13,3 +13,4 @@ black
 ipykernel
 wandb
 lightning-bolts
+pylint
