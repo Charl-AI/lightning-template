@@ -26,4 +26,4 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        python lint.py --path ../src --disable=C0330 --disable=C0326 --max-line-length=88
+        python lint.py --path ./src --disable=C0330 --disable=C0326 --max-line-length=88
