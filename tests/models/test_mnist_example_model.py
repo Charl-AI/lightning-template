@@ -3,8 +3,8 @@ import pytest
 from tests.test_suite_utils.dummy_classification_data import (
     DummyClassificationDataModule,
 )
-from src.models.MNIST_example_model import MNISTResNetModule
-from src.datasets.MNIST_example_data import MNISTDataModule
+from src.models.mnist_example_model import MNISTResNetModule
+from src.datasets.mnist_example_data import MNISTDataModule
 from tests.test_suite_utils.model_test_utils import (
     check_logits_range,
     check_training_params,
