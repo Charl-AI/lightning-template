@@ -52,18 +52,15 @@ The data used in the default example is the standard MNIST dataset. It will down
 
 ## Running
 
-For training, run:
+For training, show available options by running:
 
 ```bash
-python src/train.py
+python src/train.py --help
 ```
 
-For options, run `python src/train.py --help` to show arguments you can pass from the command line.
-This project integrates with [Weights and Biases](https://wandb.ai/site) for logging and it is strongly recommended to use it. Default behaviour is to log all `train.py` runs to WandB and all runs in unit tests to Tensorboard. Tensorboard logs may be missing features; they can be launched with:
+This will give a list of command line arguments you can use in the program - e.g. ```python src/train.py --max_epochs 50 --batch_size 1 --log_every_n_steps 5 --learning_rate 0.01```.
 
-```bash
-tensorboard --logdir=lightning_logs
-```
+This project integrates with [Weights and Biases](https://wandb.ai/site) for logging and it is strongly recommended to use it (it's free!).
 When using Weights and Biases on a new machine, run ```wandb login``` in the terminal, and paste the API key from your weights and biases account to set it up.
 
 ### Citation
