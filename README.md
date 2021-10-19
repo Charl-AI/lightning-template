@@ -44,7 +44,7 @@ A virtual environment is recommended for this project. Create and activate a vir
 python3 -m venv venv
 source venv/bin/activate
 
-pip install -r requirements.txt
+pip install -r requirements.txt --no-cache-dir
 ```
 ## Data
 The data used in the default example is the standard MNIST dataset. It will download automatically to ```data/``` by default.
