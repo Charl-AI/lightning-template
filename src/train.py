@@ -34,7 +34,7 @@ def main(args):
     root_name = os.path.basename(Path(__file__).resolve().parent.parent)
 
     wandb_logger = WandbLogger(
-        name=f"{title}", log_model="all", project=f"{root_name}-logs"
+        name=f"{title}", log_model=False, project=f"{root_name}-logs"
     )
     wandb_logger.watch(model)
 
