@@ -4,17 +4,7 @@ import pytorch_lightning as pl
 import torch.nn.functional as F
 import torchmetrics.functional as TF
 
-
-class _MNISTResNet(ResNet):
-    """Pytorch ResNet 18, adapted for use with MNIST"""
-
-    def __init__(self):
-        super().__init__(BasicBlock, [2, 2, 2, 2], num_classes=10)
-
-        # simply change the first layer to accept greyscale
-        self.conv1 = torch.nn.Conv2d(
-            1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False
-        )
+from models.base_models.resnet import ResNet50
 
 
 class MNISTResNetModule(pl.LightningModule):
@@ -24,7 +14,7 @@ class MNISTResNetModule(pl.LightningModule):
         super().__init__()
         self.lr = lr
         self.save_hyperparameters()
-        self.net = _MNISTResNet()
+        self.net = ResNet50(in_channels=1, out_classes=10)
 
     def forward(self, x):
         return self.net(x)
