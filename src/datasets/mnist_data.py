@@ -19,7 +19,7 @@ class MNISTDataModule(pl.LightningDataModule):
         data_dir: str = "data/",
         batch_size: int = 50,
         num_workers: int = 4,
-        drop_last: bool = True,
+        drop_last: bool = False,
     ):
         super().__init__()
         self.save_hyperparameters()
