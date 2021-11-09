@@ -1,4 +1,4 @@
-name: Check code is black formatted
+name: Formatting QA
 
 # see: https://help.github.com/en/actions/reference/events-that-trigger-workflows
 on:
