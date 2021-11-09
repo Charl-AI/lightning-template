@@ -1,5 +1,6 @@
 Checklist for starting project:
 
+* [ ] If necessary, merge the CI testing branch to main to get some initial pytest features
 * [ ] Create initial Milestones e.g. EDA, create dataset, create model, train initial model, etc.
 * [ ] Add custom issue labels (for example severity of issue, (more) issue types, and staus of issue (abandoned, in progress, etc.)
 * [ ] Update README, including CI testing badge
