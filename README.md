@@ -60,7 +60,7 @@ python src/train.py --help
 
 This will give a list of command line arguments you can use in the program - e.g. ```python src/train.py --max_epochs 50 --batch_size 1 --log_every_n_steps 5 --learning_rate 0.01```.
 
-This project integrates with [Weights and Biases](https://wandb.ai/site) for logging and it is strongly recommended to use it (it's free!).
+This project integrates with [Weights and Biases](https://wandb.ai/site) for logging and it is strongly recommended to use it (it's free!). By default, including the ```--logger True``` flag in the CLI will use Weights and Biases.
 When using Weights and Biases on a new machine, run ```wandb login``` in the terminal, and paste the API key from your weights and biases account to set it up.
 
 ### Citation
