@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Python: debug model training",
+            "type": "python",
+            "request": "launch",
+            "program": "src/train.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--gpus",
+                "1",
+                "--max_epochs",
+                "2",
+                "--learning_rate",
+                "0.01",
+            ]
+        }
+    ]
+}
