@@ -3,7 +3,7 @@ Checklist for starting project:
 * [ ] If necessary, merge the CI testing branch to main to get some initial pytest features
 * [ ] Create initial Milestones e.g. EDA, create dataset, create model, train initial model, etc.
 * [ ] Add custom issue labels (for example severity of issue, (more) issue types, and staus of issue (abandoned, in progress, etc.)
-* [ ] Update README, including CI testing badge
+* [ ] Update README.
 
 
 <div align="center">
@@ -14,10 +14,6 @@ Checklist for starting project:
 [![Conference](http://img.shields.io/badge/NeurIPS-2019-4b44ce.svg)](https://papers.nips.cc/book/advances-in-neural-information-processing-systems-31-2018)
 [![Blog](http://img.shields.io/badge/Blog-NameofPost-c044ce.svg)](https://charl-ai.github.io/)
 [![Kaggle](http://img.shields.io/badge/Kaggle-CompetitionName-44c5ce.svg)](https://www.kaggle.com/competitions)
-
-
-![CI testing](https://github.com/Charl-AI/lightning-template/workflows/CI%20testing/badge.svg?branch=main&event=push)
-
 
 </div>
 
