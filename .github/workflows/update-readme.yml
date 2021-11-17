@@ -35,7 +35,7 @@ jobs:
         git config user.email "<>"
       shell: bash
 
-      - name: commit
+    - name: commit
       run: |
         git add .
         git commit -m "update README.md"
