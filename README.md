@@ -14,7 +14,7 @@ This template is designed to give the user the minimum amount of useful features
 
 1. MNIST + ResNet example. By default, the template will include an MNIST DataModule and a ResNet LightningModule (and running train.py will use these out-of-the-box). These are common enough that they should be useful, and even if not, they provide useful examples of how to properly make models and datasets in Pytorch Lightning. Feel free to remove them if not needed.
 
-2. Logging with Weights and Biases. By default, ```train.py``` initialises a Weights and Biases logger, and uses two of the included logging callbacks. Note: I intend to create a package with lots of useful logging callbacks at some point in the future, so these may be moved.
+2. Logging with Weights and Biases. By default, ```train.py``` initialises a Weights and Biases logger and uses the two included logging callbacks to log some useful plots for image classification. Note: I intend to create a package with lots of useful logging callbacks at some point in the future, so these may be moved.
 
 3. Black format check GitHub action. On pushes and pull requests to main an action will run to check if the code is black formatted.
 
