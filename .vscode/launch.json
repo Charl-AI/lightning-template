@@ -11,8 +11,8 @@
                 "1",
                 "--max_epochs",
                 "2",
-                "--learning_rate",
-                "0.01",
+                "--logger",
+                "False",
             ]
         }
     ]
