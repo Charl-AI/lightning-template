@@ -57,8 +57,8 @@ def main(args):
 if __name__ == "__main__":
 
     parser = ArgumentParser()
-    parser = MNISTResNetModule.add_model_specific_args(parser)
-    parser = MNISTDataModule.add_dataset_specific_args(parser)
+    parser = MNISTResNetModule.add_argparse_args(parser)
+    parser = MNISTDataModule.add_argparse_args(parser)
     parser = pl.Trainer.add_argparse_args(parser)
     args = parser.parse_args()
 

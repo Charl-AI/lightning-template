@@ -91,7 +91,7 @@ class MNISTDataModule(pl.LightningDataModule):
         )
 
     @classmethod
-    def add_dataset_specific_args(cls, parent_parser):
+    def add_argparse_args(cls, parent_parser):
         parser = parent_parser.add_argument_group(cls.__name__)
         parser.add_argument(
             "--data_dir",

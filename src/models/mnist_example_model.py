@@ -50,7 +50,7 @@ class MNISTResNetModule(pl.LightningModule):
         return torch.optim.SGD(self.parameters(), lr=self.lr)
 
     @classmethod
-    def add_model_specific_args(cls, parent_parser):
+    def add_argparse_args(cls, parent_parser):
         parser = parent_parser.add_argument_group(cls.__name__)
         parser.add_argument(
             "--learning_rate",
