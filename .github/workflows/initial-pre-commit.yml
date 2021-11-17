@@ -1,4 +1,4 @@
-name: Initial pre-commit
+name: Action on Initial commit
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   README:
-    name: pre-commit for initial commit
+    name: Automatically set up repo on initial commit
 
     runs-on: ubuntu-latest
 
@@ -17,7 +17,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    #- uses: pre-commit/action@v2.0.3
 
     - name: Replace template README with project README
       run: |
@@ -30,6 +29,11 @@ jobs:
         sed -i "s/REPO-NAME/$NAME/g" README.md
       shell: bash
 
+    - name: Self-destruct
+      run: |
+        rm .github/workflows/initial-pre-commit.yml
+      shell: bash
+
     - name: setup git config
       run: |
         git config user.name "GitHub Actions Bot"
@@ -39,6 +43,6 @@ jobs:
     - name: commit
       run: |
         git add .
-        git commit -m "update README.md"
+        git commit -m "Auto create README"
         git push -u origin main
       shell: bash
