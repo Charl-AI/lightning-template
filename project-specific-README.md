@@ -1,11 +1,3 @@
-Template for machine learning projects with [Pytorch Lightning](https://pytorch-lightning.readthedocs.io/en/latest/), focussed on allowing research projects to get set up quickly. The template includes an MNIST example, logging with weights and biases, and a recommended style guide.
-
-To start a project, create a repo with the **Use this template** button. Then update this README as necessary and remove everything above the title line.
-
-### General notes on how to get the most out of this template
-
-
-
 <div align="center">
 
 # REPO-NAME
