@@ -10,7 +10,7 @@ from models.base_models.resnet import ResNet50
 class MNISTResNetModule(pl.LightningModule):
     """LightningModule implementation of a ResNet for MNIST"""
 
-    def __init__(self, lr: float = 0.01):
+    def __init__(self, lr: float):
         super().__init__()
         self.lr = lr
         self.save_hyperparameters()
@@ -49,9 +49,9 @@ class MNISTResNetModule(pl.LightningModule):
     def configure_optimizers(self):
         return torch.optim.SGD(self.parameters(), lr=self.lr)
 
-    @staticmethod
-    def add_model_specific_args(parent_parser):
-        parser = parent_parser.add_argument_group("MNISTResNetModule")
+    @classmethod
+    def add_model_specific_args(cls, parent_parser):
+        parser = parent_parser.add_argument_group(cls.__name__)
         parser.add_argument(
             "--learning_rate",
             help="learning rate of optimiser",

@@ -16,10 +16,10 @@ class MNISTDataModule(pl.LightningDataModule):
 
     def __init__(
         self,
-        data_dir: str = "data/",
-        batch_size: int = 50,
-        num_workers: int = 4,
-        drop_last: bool = False,
+        data_dir: str,
+        batch_size: int,
+        num_workers: int,
+        drop_last: bool,
     ):
         super().__init__()
         self.save_hyperparameters()
@@ -90,9 +90,9 @@ class MNISTDataModule(pl.LightningDataModule):
             drop_last=self.drop_last,
         )
 
-    @staticmethod
-    def add_dataset_specific_args(parent_parser):
-        parser = parent_parser.add_argument_group("MNISTDataModule")
+    @classmethod
+    def add_dataset_specific_args(cls, parent_parser):
+        parser = parent_parser.add_argument_group(cls.__name__)
         parser.add_argument(
             "--data_dir",
             help="directory containing 'MNIST/' data directory",
