@@ -31,14 +31,13 @@ def main(args):
 
     callbacks = []
 
-    if args.logger == True:
+    if args.logger:
         # Get name of project root. Assumes structure of root/src/train.py
         root_name = os.path.basename(Path(__file__).resolve().parent.parent)
 
-        wandb_logger = WandbLogger(log_model=False, project=f"{root_name}-logs")
-        wandb_logger.watch(model)
+        logger = WandbLogger(log_model=False, project=f"{root_name}-logs")
+        logger.watch(model)
 
-        logger = wandb_logger
         callbacks.extend(
             [
                 WandbImageClassificationCallback(num_samples=32),
