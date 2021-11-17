@@ -43,6 +43,8 @@ def main(args):
                 WandbDatasetHistogramCallback(),
             ]
         )
+    else:
+        logger = False
 
     trainer = pl.Trainer.from_argparse_args(
         args,
