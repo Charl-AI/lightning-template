@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Replace template README with project README
-    run: |
+      run: |
         mv -f project-README.md README.md
       shell: bash
 
