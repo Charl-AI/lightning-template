@@ -1,17 +1,19 @@
-from argparse import ArgumentParser
+import os
 import pytorch_lightning as pl
+
+from pathlib import Path
+from argparse import ArgumentParser
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.utilities.seed import seed_everything
-import os
-from pathlib import Path
+
+from models.mnist_example_model import MNISTResNetModule
+from datasets.mnist_data import MNISTDataModule
 from visualisation.wandb_callbacks.image_classification_callback import (
     WandbImageClassificationCallback,
 )
 from visualisation.wandb_callbacks.dataset_histogram_callback import (
     WandbDatasetHistogramCallback,
 )
-from models.mnist_example_model import MNISTResNetModule
-from datasets.mnist_data import MNISTDataModule
 
 # dataloader workers get different seeds to prevent augmentations being repeated
 seed_everything(1, workers=True)
