@@ -2,6 +2,8 @@ name: Update README.md on repo creation
 
 on:
   create:
+    branches:
+      - main
 
 jobs:
   README:
