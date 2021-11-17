@@ -15,7 +15,7 @@ jobs:
 
     timeout-minutes: 5
 
- steps:
+    steps:
     - uses: actions/checkout@v2
 
     - name: Replace template README with project README
@@ -24,19 +24,20 @@ jobs:
       shell: bash
 
     - name: Find and replace REPO-NAME
-    run: |
+      run: |
         NAME=${PWD##*/}
         sed -i "s/REPO-NAME/$NAME/g" README.md
       shell: bash
 
     - name: setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
+      run: |
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
+      shell: bash
 
       - name: commit
-        run: |
-          # Stage the file, commit and push
-          git add .
-          git commit -m "update README.md"
-          git push origin master
+      run: |
+        git add .
+        git commit -m "update README.md"
+        git push origin master
+      shell: bash
