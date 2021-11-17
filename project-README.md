@@ -21,7 +21,7 @@ Note: this project has been developed and tested on Ubuntu. The project may run 
 It is recommended to clone the repo with the GitHub CLI:
 ```bash
 # clone project
-git clone https://github.com/Charl-AI/REPO-NAME
+gh repo clone Charl-AI/REPO-NAME
 
 # change to project directory
 cd REPO-NAME
@@ -54,7 +54,7 @@ For training, show available options by running:
 python src/train.py --help
 ```
 
-This will give a list of command line arguments you can use in the program - e.g. ```python src/train.py --max_epochs 50 --batch_size 1 --log_every_n_steps 5 --learning_rate 0.01```.
+This will give a list of command line arguments you can use in the program - e.g. ```python src/train.py --max_epochs 50 --batch_size 8 --log_every_n_steps 5 --learning_rate 0.01```.
 
 This project integrates with [Weights and Biases](https://wandb.ai/site) for logging and it is strongly recommended to use it (it's free!). By default, including the ```--logger True``` flag in the CLI will use Weights and Biases.
 When using Weights and Biases on a new machine, run ```wandb login``` in the terminal, and paste the API key from your weights and biases account when prompted to set it up.
