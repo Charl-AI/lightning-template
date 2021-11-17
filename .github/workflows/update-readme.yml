@@ -1,0 +1,42 @@
+name: Update README.md on repo creation
+
+on:
+  create:
+
+jobs:
+  README:
+    name: Update README.md
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    timeout-minutes: 5
+
+ steps:
+    - uses: actions/checkout@v2
+
+    - name: Replace template README with project README
+    run: |
+        mv -f project-README.md README.md
+      shell: bash
+
+    - name: Find and replace REPO-NAME
+    run: |
+        NAME=${PWD##*/}
+        sed -i "s/REPO-NAME/$NAME/g" README.md
+      shell: bash
+
+    - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: commit
+        run: |
+          # Stage the file, commit and push
+          git add .
+          git commit -m "update README.md"
+          git push origin master
