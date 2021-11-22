@@ -59,7 +59,7 @@ class MNISTDataModule(pl.LightningDataModule):
             )
 
         if stage == "test" or stage is None:
-            self.test = data = MNIST(
+            self.test = MNIST(
                 root=self.data_dir,
                 train=False,
                 transform=self.transforms,
