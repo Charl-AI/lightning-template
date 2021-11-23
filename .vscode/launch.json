@@ -1,7 +1,14 @@
 {
     "configurations": [
         {
-            "name": "Python: debug model training",
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: Train Model",
             "type": "python",
             "request": "launch",
             "program": "src/train.py",
