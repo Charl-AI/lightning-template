@@ -2,6 +2,9 @@
 
 # lightning-template
 
+  
+## 04.04.22: This Template has now been archived and will no longer be maintained. It has been a useful template, but I now mostly use JAX for my research projects. At the time of writing, there are several [other templates](https://github.com/ashleve/lightning-hydra-template) which seem to be very well made for use with Pytorch Lightning.
+  
 </div>
 
 Template for machine learning projects with [Pytorch Lightning](https://pytorch-lightning.readthedocs.io/en/latest/), focussed on allowing research projects to get set up quickly. The template includes an MNIST example, logging with weights and biases, and a recommended style guide. This README serves as a style guide and gives some general advice for getting the most out of this template.
